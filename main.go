@@ -4,7 +4,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/jm-szlendak/banking/dataimport"
+	"github.com/jm-szlendak/banking/datastore"
+	"github.com/jm-szlendak/banking/jobs"
 )
 
 func checkError(e error) {
@@ -14,12 +15,14 @@ func checkError(e error) {
 }
 
 func main() {
-	filename := os.Args[1]
-	file, err := os.Open(filename)
-	checkError(err)
+	jobArgs := os.Args[1:]
 
-	defer file.Close()
-	transactions := dataimport.ImportPKOBPData(file, "1")
-	fmt.Println(transactions)
+	csvStore := datastore.NewCSVTransactionStore(jobArgs[1])
+	defer csvStore.Close()
 
+	job := jobs.DataImportJob{csvStore}
+	_, err := job.Run(jobArgs)
+	if err != nil {
+		fmt.Println(err)
+	}
 }

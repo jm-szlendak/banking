@@ -20,6 +20,8 @@ const (
 )
 
 type Transaction struct {
+	Id              string
+	Account         string
 	TransactionDate int64
 	CurrencyDate    int64
 	Type            TransactionType
@@ -28,8 +30,6 @@ type Transaction struct {
 	Title           string
 	Counterpart     string
 	Details         string
-	Account         string
-	Id              string
 }
 
 func (t *Transaction) Hash() string {

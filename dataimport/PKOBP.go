@@ -81,11 +81,9 @@ func (p PKOBPDataImporter) Import(data io.Reader, accountId string) []models.Tra
 			Counterpart:     counterpart,
 			Account:         accountId,
 		}
-		transaction.Id = transaction.Hash()
 
 		transactions[i] = transaction
 	}
-
 	return transactions
 }
 
