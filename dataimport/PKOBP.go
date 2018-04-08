@@ -12,6 +12,8 @@ import (
 	"golang.org/x/text/transform"
 )
 
+type PKOBPDataImporter struct{}
+
 const (
 	operationDateInd   = 0
 	currencyDateInd    = 1
@@ -25,9 +27,8 @@ const (
 	descriptionInd5    = 10
 )
 
-type PKOBPDataImporter struct{}
-
 func (p PKOBPDataImporter) Import(data io.Reader, accountId string) []models.Transaction {
+
 	dec := transform.NewReader(data, charmap.Windows1250.NewDecoder())
 	records, e := csv.NewReader(dec).ReadAll()
 	if e != nil {
