@@ -31,7 +31,7 @@ func (s *MongoTransactionStore) Close() {
 	s.dbConnection.Close()
 }
 func (s *MongoTransactionStore) GetAll() []models.Transaction {
-
+	return make([]models.Transaction, 0, 0)
 }
 
 func (s *MongoTransactionStore) Insert(transactions []models.Transaction, replace bool) {
@@ -39,9 +39,10 @@ func (s *MongoTransactionStore) Insert(transactions []models.Transaction, replac
 }
 
 func NewMongoTransactionStore(dbURI, database, collection string) *MongoTransactionStore {
-	return &MongoTransactionStore{
+	var store = MongoTransactionStore{
 		dbURI:          dbURI,
 		dbName:         database,
 		collectionName: collection,
 	}
+	return store.Open()
 }

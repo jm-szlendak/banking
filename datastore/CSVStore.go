@@ -13,11 +13,11 @@ type CSVTransactionStore struct {
 	writer io.WriteCloser
 }
 
-func (s *CSVTransactionStore) GetAll() []models.Transaction {
-	return make([]models.Transaction, 0, 0)
+func (s *CSVTransactionStore) GetAll() ([]models.Transaction, error) {
+	return make([]models.Transaction, 0, 0), nil
 }
 
-func (s *CSVTransactionStore) Insert(transactions []models.Transaction, replace bool) {
+func (s *CSVTransactionStore) Insert(transactions []models.Transaction, replace bool) error {
 	rows := make([][]string, len(transactions)+1)
 	rows[0] = make([]string, 10)
 	rows[0][0] = "Id"
@@ -46,8 +46,9 @@ func (s *CSVTransactionStore) Insert(transactions []models.Transaction, replace 
 	}
 
 	csvWriter := csv.NewWriter(s.writer)
-
 	csvWriter.WriteAll(rows)
+
+	return nil
 }
 
 func (s *CSVTransactionStore) Close() {

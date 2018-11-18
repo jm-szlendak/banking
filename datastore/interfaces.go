@@ -5,8 +5,8 @@ import (
 )
 
 type TransactionStore interface {
-	Open() *TransactionStore
+	// Open() *TransactionStore
 	Close()
-	GetAll() []models.Transaction
-	Insert(transactions []models.Transaction, replace bool)
+	GetAll() ([]models.Transaction, error)
+	Insert(transactions []models.Transaction, replace bool) error
 }
